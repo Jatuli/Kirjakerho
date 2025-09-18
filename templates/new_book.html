@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi kirja</title>
+</head>
+
+<body>
+  <form action="/create_book" method="post">
+    <p>
+        Kirjan nimi: <br />
+      <input type="text" name="book_name" />
+    </p>
+    <p>
+        Kirjailija: <br />
+      <input type="text" name="author" />
+    <p>
+        Kuvaus: <br />
+        <textarea name="description" rows="10" cols="60"></textarea>
+    </p>
+    </p>
+    <input type="submit" value="Luo kirja" />
+  </form>
+</body>
+
+</html>
