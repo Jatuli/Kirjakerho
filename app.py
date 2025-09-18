@@ -12,13 +12,28 @@ app.secret_key = config.secret_key
 def index():
    return render_template("index.html")
 
+@app.route("/new_book")
+def book():
+    return render_template("new_book.html")
+
+@app.route("/create_book", methods=["POST"])
+def create():
+    book_name = request.form["book_name"]
+    author = request.form["author"]
+    description = request.form["description"]
+    user_id = session["user_id"]
+
+    sql = """INSERT INTO books (book_name, author, description, user_id) VALUES (?,?,?,?)"""
+    db.execute(sql, [book_name, author, description, user_id])
+
+    return redirect ("/")
+
 @app.route("/register")
 def register():
     return render_template("register.html")
 
-
-@app.route("/create", methods=["POST"])
-def create():
+@app.route("/create_user", methods=["POST"])
+def create_user():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
@@ -42,10 +57,13 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         
-        sql = "SELECT password_hash FROM users WHERE username = ?"
-        password_hash = db.query(sql, [username])[0][0]
+        sql = "SELECT id, password_hash FROM users WHERE username = ?"
+        result = db.query(sql, [username])[0]
+        user_id = result["id"]
+        password_hash = result["password_hash"]
 
         if check_password_hash(password_hash, password):
+            session["user_id"] = user_id
             session["username"] = username
             return redirect("/")
         else:
@@ -53,6 +71,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+    del session["user_id"]
     del session["username"]
     return redirect("/")
 
