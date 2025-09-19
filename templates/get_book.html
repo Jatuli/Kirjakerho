@@ -3,16 +3,47 @@
 
 <head>
   <title>{{ book.book_name }}</title>
+  <style>
+    .button {
+        display: block; 
+        padding: 10px; 
+        margin: 5px 0; 
+        border: 1px solid #000; 
+        text-align: center; 
+        text-decoration: none; 
+        color: #000; 
+        background-color: #f0f0f0; 
+        border-radius: 5px; 
+        width: 150px;
+    }
+
+    .button:hover {
+        background-color: #ddd; 
+    }
+</style>
 </head>
 
 <body>
   <h2>{{  book.book_name  }}</h2>
-  <p>
+    <p>
     {{ book.description}}
   </p>
   <p>
     Lisännyt: {{ book.username  }}
+    </p>
+    <p>
+        <a class="button" href="/edit_book/{{ book.id }}">Muokkaa kirjaa</a> 
+    </p>
+     <form action="/delete_book/{{ book.id }}" method="POST" onsubmit="return confirm('Haluatko varmasti poistaa tämän kirjan?');">
+        <input type="submit" class="button" value="Poista kirja">
+    </form>
+    <a class="button" href="/">Takaisin</a>
   </p>
+  {% if session.user_id == book.user_id %}
+    <p>
+        Olet kirjautunut nimellä <b>{{ session.username }}</b>,  id-numero : <b>{{ session.user_id }}</b>
+    </p>
+    {% endif %}
 </body>
 
 </html>

@@ -9,11 +9,13 @@ def get_books():
     return db.query(sql) 
 
 def get_book(book_id):
-    sql = """SELECT books.book_name,
-                    author,
-                    description,
+    sql = """SELECT books.id,
+                    books.book_name,
+                    books.author,
+                    books.description,
+                    users.id user_id,
                     users.username
             FROM books, users
             WHERE books.user_id = users.id AND 
-                    books.id = ?"""
+                books.id = ?"""
     return db.query(sql, [book_id])[0]

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>Muokkaa kirjaa</title>
+</head>
+<body>
+    <h1>Muokkaa kirjaa</h1>
+    <form action="/edit_book/{{ book.id }}" method="POST">
+        <p>
+            Nimi: <input type="text" name="book_name" value="{{ book.book_name }}" required>
+        </p>
+        <p>
+            Kirjoittaja: <input type="text" name="author" value="{{ book.author }}" required>
+        </p>
+        <p>
+            Kuvaus: <textarea name="description" required>{{ book.description }}</textarea>
+        </p>
+        <input type="submit" value="Tallenna muutokset">
+    </form>
+</body>
+</html>
