@@ -2,6 +2,24 @@
 <html>
 <head>
     <title>Tervetuloa kirjakerhoon</title>
+    <style>
+        .button {
+            display: block; 
+            padding: 10px; 
+            margin: 5px 0; 
+            border: 1px solid #000; 
+            text-align: center; 
+            text-decoration: none; 
+            color: #000; 
+            background-color: #f0f0f0; 
+            border-radius: 5px; 
+            width: 150px;
+        }
+
+        .button:hover {
+            background-color: #ddd; 
+        }
+    </style>
 </head>
 
 <body>
@@ -9,19 +27,41 @@
 
     {% if session.username %}
     <p>
-        Olet kirjautunut nimellä <strong>{{ session.username }}<strong/>,  id-numero : <strong>{{ session.user_id }}</strong>
+        Olet kirjautunut nimellä <strong>{{ session.username }}</strong>,  id-numero : <strong>{{ session.user_id }}</strong>
     </p>
      {% endif %}
 
     <p>
-        <a href="/login">Kirjaudu sisään</a>
-        <a href="/register">Rekisteröidy</a>
-        <a href="/logout">Kirjaudu ulos</a>
+        <a class="button" href="/login">Kirjaudu sisään</a>
+        <a class="button" href="/register">Rekisteröidy</a>
+        <a class="button" href="/logout">Kirjaudu ulos</a>
     </p>
 
     <p>
-        <a href="/new_book">Uusi kirja</a>
+        <a class="button" href="/new_book">Uusi kirja</a>
     </p>
+
+    <h2>Kirjat</h2>
+    <style>
+        ul {
+            list-style-type: none; 
+            padding-left: 10px; 
+        } 
+        a {
+            text-decoration: none; 
+            color: blue; 
+        }
+    </style>
+    <ul>
+        {% for book in books %}
+        <li>
+            <a class="button" href="/book/{{ book.id }}"> 
+                <b>{{ loop.index }}. Nimi: {{ book.book_name }}, Kirjoittaja: {{ book.author }}</b></a>
+        </li>    
+        <li>&nbsp;</li>
+        {% endfor %}
+    </ul>
+
 </body>
 
 </html>

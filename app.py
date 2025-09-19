@@ -11,7 +11,14 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-   return render_template("index.html")
+   all_books = books.get_books()
+   return render_template("index.html", books=all_books)
+
+@app.route("/book/<int:book_id>")
+def show_book(book_id):
+    book = books.get_book(book_id)
+    return render_template("get_book.html", book=book)
+    
 
 @app.route("/new_book")
 def book():
