@@ -19,3 +19,10 @@ def get_book(book_id):
             WHERE books.user_id = users.id AND 
                 books.id = ?"""
     return db.query(sql, [book_id])[0]
+
+def update_book(book_id, book_name, author, description):
+    sql ="""UPDATE books SET book_name = ?,
+                        author = ?,
+                        description = ?
+                    WHERE id = ?"""
+    db.execute(sql, [book_name, author, description, book_id])

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Uusi kirja</title>
+  <title>Muokkaa kirjaa</title>
   <style>
     .button {
         display: block; 
@@ -24,20 +24,21 @@
 </head>
 
 <body>
-  <form action="/create_book" method="post">
+    <h2>Muokkaa kirjaa</h2>
+    <form action="/update_book" method="POST">
     <p>
         Kirjan nimi: <br />
-      <input type="text" name="book_name" />
+      <input type="text" name="book_name" value="{{ book.book_name }}" />
     </p>
     <p>
         Kirjailija: <br />
-      <input type="text" name="author" />
+      <input type="text" name="author" value="{{ book.author }}" />
     <p>
         Kuvaus: <br />
-        <textarea name="description" rows="10" cols="60"></textarea>
+        <textarea name="description" rows="10" cols="60">{{ book.description }}</textarea>
     </p>
-    </p>
-    <input class="button" type="submit" value="Luo kirja" />
+    <input type="hidden" name="book_id" value="{{ book.id }}" />
+    <input class="button" type="submit" value="Tallenna muutokset"/>
   </form>
 </body>
 

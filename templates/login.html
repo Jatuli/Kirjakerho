@@ -3,6 +3,24 @@
 
 <head>
   <title>Kirjautuminen</title>
+  <style>
+    .button {
+        display: block; 
+        padding: 10px; 
+        margin: 5px 0; 
+        border: 1px solid #000; 
+        text-align: center; 
+        text-decoration: none; 
+        color: #000; 
+        background-color: #f0f0f0; 
+        border-radius: 5px; 
+        width: 150px;
+    }
+
+    .button:hover {
+        background-color: #ddd; 
+    }
+</style>
 </head>
 
 <body>
@@ -11,7 +29,7 @@
     Olet kirjautunut nimellä {{ session.username }}
   </p>
   <p>
-    <a href="/logout">Kirjaudu ulos</a>
+    <a class="button" href="/logout">Kirjaudu ulos</a>
   </p>
   {% else %}
   <form action="/login" method="post">
@@ -23,7 +41,7 @@
       Salasana: <br />
       <input type="password" name="password" />
     </p>
-    <input type="submit" value="Kirjaudu" />
+    <input class="button" type="submit" value="Kirjaudu" />
   </form>
   {% endif %}
 </body>
