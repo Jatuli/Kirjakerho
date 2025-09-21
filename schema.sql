@@ -1,13 +1,13 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
     password_hash TEXT
 );
 
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS books (
     id INTEGER PRIMARY KEY,
     book_name TEXT,
     author TEXT,
     description TEXT,
-    user_id INTEGER REFERENCE users
+    user_id INTEGER REFERENCES users
 );

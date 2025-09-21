@@ -13,7 +13,7 @@ def get_book(book_id):
                     books.book_name,
                     books.author,
                     books.description,
-                    users.id user_id,
+                    users.id user_id,s
                     users.username
             FROM books, users
             WHERE books.user_id = users.id AND 

@@ -88,7 +88,8 @@ def create_user():
     except sqlite3.IntegrityError:
         return "VIRHE: tunnus on jo varattu"
 
-    return "Tunnus luotu"
+    return "Tunnus luotu" 
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -117,5 +118,7 @@ def logout():
     return redirect("/")
 
 if __name__ == "__main__":
+    print("Alustetaan tietokanta...")
     db.init_db()
+    print("Tietokannan alustus valmis.")
     app.run(debug=True)

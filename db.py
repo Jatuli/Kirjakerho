@@ -13,7 +13,7 @@ def init_db():
     con.close()
 
 def get_connection():
-    con = sqlite3.connect("database.db")
+    con = sqlite3.connect("DB_PATH")
     con.execute("PRAGMA foreign_keys = ON")
     con.row_factory = sqlite3.Row
     return con
