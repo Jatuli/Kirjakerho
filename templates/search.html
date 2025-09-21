@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hae kirjastosta</title>
+    <style>
+        .button {
+            display: block; 
+            padding: 10px; 
+            margin: 5px 0; 
+            border: 1px solid #000; 
+            text-align: center; 
+            text-decoration: none; 
+            color: #000; 
+            background-color: #f0f0f0; 
+            border-radius: 5px; 
+            width: 150px;
+        }
+
+        .button:hover {
+            background-color: #ddd; 
+        }
+    </style>
+</head>
+<body>
+    <h2>Hae kirjastosta</h2>
+    <form action="/search" method="get">
+        <p>
+            Hakusana: <input type="text" name="query" value="{{ query }}">
+        </p>
+        <input class="button" type="submit" value="Lähetä">
+    </form>
+
+    <a class="button" href="/">Takaisin etusivulle</a>
+
+    {% if query %}
+        <h2>Haun tulos</h2>
+        {% if results %}
+            <ul>
+                {% for result in results %}
+                <li>
+                    <a href="/book/{{ result.book_id }}">{{ result.book_name }}</a>
+                    Kirjoittaja: {{ result.author }} 
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Ei kirjoja tällä haulla.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

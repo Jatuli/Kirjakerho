@@ -52,6 +52,23 @@ def update_book():
 
     return redirect ("/book/" + str(book_id))
 
+@app.route("/remove_book/<int:book_id>", methods=["POST"])
+def remove_book(book_id):
+    books.remove_book(book_id)
+
+    return redirect("/")
+
+@app.route("/search")
+def search_book():
+    query = request.args.get("query")  
+    if query:
+        results = books.search(query)
+    else:
+        query = ""
+        results = []
+    return render_template("search.html", query=query, results=results)
+    
+
 @app.route("/register")
 def register():
     return render_template("register.html")
@@ -100,5 +117,5 @@ def logout():
     return redirect("/")
 
 if __name__ == "__main__":
-    db.init_db()   # alustaa tietokannan ennen Flaskin käynnistystä
+    db.init_db()
     app.run(debug=True)

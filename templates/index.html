@@ -5,7 +5,7 @@
     <style>
         .button {
             display: block; 
-            padding: 10px; 
+            padding-left: 10px; 
             margin: 5px 0; 
             border: 1px solid #000; 
             text-align: center; 
@@ -18,7 +18,7 @@
 
         .button:hover {
             background-color: #ddd; 
-        }
+        } 
     </style>
 </head>
 
@@ -32,20 +32,28 @@
      {% endif %}
 
     <p>
-        <a class="button" href="/login">Kirjaudu sisään</a>
-        <a class="button" href="/register">Rekisteröidy</a>
-        <a class="button" href="/logout">Kirjaudu ulos</a>
+        <div style="margin-left: 20px;">
+            <a class="button" href="/login">Kirjaudu sisään</a>
+            <a class="button" href="/register">Rekisteröidy</a>
+            <a class="button" href="/logout">Kirjaudu ulos</a>
+        </div>
     </p>
-
     <p>
-        <a class="button" href="/new_book">Uusi kirja</a>
+        <div style="margin-left: 20px;">
+            <a class="button" href="/new_book">Uusi kirja</a>
+        </div>
     </p>
-
+    <p>
+        <div style="margin-left: 20px;">
+            <a class="button" href="/search">Hae kirjastosta</a>
+        </div>
+    </p>
+    
     <h2>Kirjat</h2>
     <style>
         ul {
             list-style-type: none; 
-            padding-left: 10px; 
+            padding-left: 20px; 
         } 
         a {
             text-decoration: none; 

@@ -20,6 +20,22 @@
     .button:hover {
         background-color: #ddd; 
     }
+    .red-button {
+            display: block; 
+            padding: 10px; 
+            margin: 5px 0; 
+            border: 1px solid #000; 
+            text-align: center; 
+            text-decoration: none; 
+            color: #fff; 
+            background-color: red; 
+            border-radius: 5px; 
+            width: 150px;
+        }
+
+        .red-button:hover {
+            background-color: darkred; 
+        }
 </style>
 </head>
 
@@ -34,8 +50,8 @@
     <p>
         <a class="button" href="/edit_book/{{ book.id }}">Muokkaa kirjaa</a> 
     </p>
-     <form action="/delete_book/{{ book.id }}" method="POST" onsubmit="return confirm('Haluatko varmasti poistaa tämän kirjan?');">
-        <input type="submit" class="button" value="Poista kirja">
+    <form action="/remove_book/{{ book.id }}" method="POST" onsubmit="return confirm('Haluatko varmasti poistaa tämän kirjan?');">
+        <input type="submit" class="red-button" value="Poista kirja">
     </form>
     <a class="button" href="/">Takaisin</a>
   </p>

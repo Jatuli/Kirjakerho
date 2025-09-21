@@ -8,7 +8,7 @@ SCHEMA_PATH = os.path.join(os.path.dirname(__file__), "schema.sql")
 def init_db():
     con = get_connection()
     with open(SCHEMA_PATH, "r") as f:
-        con.executescript(f.read())  # suorittaa kaikki CREATE TABLE -komennot
+        con.executescript(f.read())  
     con.commit()
     con.close()
 
@@ -33,3 +33,4 @@ def query(sql, params=[]):
     result = con.execute(sql, params).fetchall()
     con.close()
     return result
+
