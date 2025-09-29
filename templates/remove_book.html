@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Poista kirja</title>
+  <style>
+    .button {
+        display: block; 
+        padding: 10px; 
+        margin: 5px 0; 
+        border: 1px solid #000; 
+        text-align: center; 
+        text-decoration: none; 
+        color: #000; 
+        background-color: #b6b6b6; 
+        border-radius: 5px; 
+        width: 150px;
+    }
+
+    .button:hover {
+        background-color: #ddd; 
+    }
+    .redbutton {
+        display: block; 
+        padding: 10px; 
+        margin: 5px 0; 
+        border: 1px solid #000; 
+        text-align: center; 
+        text-decoration: none; 
+        color: #000; 
+        background-color: #bb7676; 
+        border-radius: 5px; 
+        width: 150px;
+    }
+
+    .redbutton:hover {
+        background-color: #b40606; 
+    }
+</style>
+</head>
+
+<body>
+    <h2>Poista kirja</h2>
+    <p><b>{{ book.book_name }}</b></p>
+    <p>Haluatko varmasti poistaa tämän kirjan </p>
+    <form action="/remove_book/{{ book.id }}" method="POST">
+        
+        <input class="redbutton" type="submit" name="remove" value="Poista kirja"/>
+        <input class="button" type="submit" name="back" value="Takaisin"/>
+    </form>
+</body>
+
+</html>
