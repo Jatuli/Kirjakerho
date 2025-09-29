@@ -6,7 +6,10 @@ def create_book(book_name, author, description, user_id):
 
 def get_books():
     sql = "SELECT id, book_name, author, description, user_id FROM books ORDER by id DESC"
-    return db.query(sql) 
+    results = db.query(sql) 
+    if not results:
+        return None
+    return results
 
 def get_book(book_id):
     sql = """SELECT books.id,
@@ -18,7 +21,8 @@ def get_book(book_id):
             FROM books, users
             WHERE books.user_id = users.id AND 
                 books.id = ?"""
-    return db.query(sql, [book_id])[0]
+    result =  db.query(sql, [book_id])
+    return result[0] if result else None
 
 def update_book(book_id, book_name, author, description):
     sql ="""UPDATE books SET book_name = ?,

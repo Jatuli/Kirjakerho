@@ -9,6 +9,11 @@ import books
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def check_login():
+    if "user_id" not in session:
+        abort(403)
+
+
 @app.route("/")
 def index():
    all_books = books.get_books()
@@ -17,15 +22,29 @@ def index():
 @app.route("/book/<int:book_id>")
 def show_book(book_id):
     book = books.get_book(book_id)
+    if book is None:
+       abort(404)
     return render_template("get_book.html", book=book)
+
+@app.route("/search")
+def search_book():
+    query = request.args.get("query")  
+    if query:
+        results = books.search(query)
+    else:
+        query = ""
+        results = []
+    return render_template("search.html", query=query, results=results)
     
 
 @app.route("/new_book")
 def book():
+    check_login()
     return render_template("new_book.html")
 
 @app.route("/create_book", methods=["POST"])
 def create():
+    check_login()
     book_name = request.form["book_name"]
     author = request.form["author"]
     description = request.form["description"]
@@ -37,13 +56,17 @@ def create():
 
 @app.route("/edit_book/<int:book_id>")
 def edit_book(book_id):
+    check_login()
     book = books.get_book(book_id)
+    if not book:
+        abort(404)
     if book["user_id"] != session["user_id"]:
         abort(403)
     return render_template("edit_book.html", book=book)
 
 @app.route("/update_book", methods=["POST"])
 def update_book():
+    check_login()
     book_id = request.form["book_id"]
     book_name = request.form["book_name"]
     author = request.form["author"]
@@ -55,6 +78,12 @@ def update_book():
 
 @app.route("/remove_book/<int:book_id>", methods=["GET", "POST"])
 def remove_book(book_id):
+    check_login()
+    book = books.get_book(book_id)
+    if not book:
+        abort(404)
+    if book["user_id"] != session["user_id"]:
+        abort(403)
     if request.method == "GET":
         book = books.get_book(book_id)
         return render_template("remove_book.html", book=book)
@@ -67,15 +96,7 @@ def remove_book(book_id):
             return redirect("/book/" +str(book_id))
 
 
-@app.route("/search")
-def search_book():
-    query = request.args.get("query")  
-    if query:
-        results = books.search(query)
-    else:
-        query = ""
-        results = []
-    return render_template("search.html", query=query, results=results)
+
     
 
 @app.route("/register")
@@ -97,8 +118,7 @@ def create_user():
     except sqlite3.IntegrityError:
         return "VIRHE: tunnus on jo varattu"
 
-    return "Tunnus luotu" 
-
+    return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -122,8 +142,9 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    if "user_id" in session:
+        del session["user_id"]
+        del session["username"]
     return redirect("/")
 
 if __name__ == "__main__":

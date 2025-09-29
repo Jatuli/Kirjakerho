@@ -29,12 +29,8 @@
     <p>
         Olet kirjautunut nimellä <b>{{ session.username }}</b>,  id-numero : <b>{{ session.user_id }}</b>
     </p>
-     {% endif %}
-
     <p>
         <div style="margin-left: 20px;">
-            <a class="button" href="/login">Kirjaudu sisään</a>
-            <a class="button" href="/register">Rekisteröidy</a>
             <a class="button" href="/logout">Kirjaudu ulos</a>
         </div>
     </p>
@@ -43,6 +39,16 @@
             <a class="button" href="/new_book">Uusi kirja</a>
         </div>
     </p>
+    {% else %}
+
+    <p>
+        <div style="margin-left: 20px;">
+            <a class="button" href="/login">Kirjaudu sisään</a>
+            <a class="button" href="/register">Rekisteröidy</a>
+        </div>
+    </p>
+    {% endif %}
+
     <p>
         <div style="margin-left: 20px;">
             <a class="button" href="/search">Hae kirjastosta</a>
