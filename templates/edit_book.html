@@ -28,14 +28,14 @@
     <form action="/update_book" method="POST">
     <p>
         Kirjan nimi: <br />
-      <input type="text" name="book_name" value="{{ book.book_name }}" />
+      <input type="text" name="book_name" maxlength="40" value="{{ book.book_name }}" required/>
     </p>
     <p>
         Kirjailija: <br />
-      <input type="text" name="author" value="{{ book.author }}" />
+      <input type="text" name="author" maxlength="40" value="{{ book.author }}" required/>
     <p>
         Kuvaus: <br />
-        <textarea name="description" rows="10" cols="60">{{ book.description }}</textarea>
+        <textarea name="description" rows="10" columns="60" maxlength="1000" required>{{ book.description }}</textarea>
     </p>
     <input type="hidden" name="book_id" value="{{ book.id }}" />
     <input class="button" type="submit" value="Tallenna muutokset"/>

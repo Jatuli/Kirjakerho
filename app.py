@@ -75,8 +75,14 @@ def update_book():
     check_login()
     book_id = request.form["book_id"]
     book_name = request.form["book_name"]
+    if len(book_name) > 40:
+        abort(403)
     author = request.form["author"]
+    if len(author) > 40:
+        abort(403)
     description = request.form["description"]
+    if len(description) > 1000:
+        abort(403)
     
     books.update_book(book_id, book_name, author, description)
 
