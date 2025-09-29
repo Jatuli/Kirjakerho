@@ -26,7 +26,7 @@
     <h2>Hae kirjastosta</h2>
     <form action="/search" method="get">
         <p>
-            Hakusana: <input type="text" name="query" value="{{ query }}">
+            Hakusana: <input type="text" name="query" maxlength="30" value="{{ query }}" required>
         </p>
         <input class="button" type="submit" value="Lähetä">
     </form>

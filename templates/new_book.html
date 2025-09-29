@@ -27,14 +27,14 @@
   <form action="/create_book" method="post">
     <p>
         Kirjan nimi: <br />
-      <input type="text" name="book_name" />
+      <input type="text" name="book_name" maxlength="40" required/>
     </p>
     <p>
         Kirjailija: <br />
-      <input type="text" name="author" />
+      <input type="text" name="author" maxlength="40" required/>
     <p>
         Kuvaus: <br />
-        <textarea name="description" rows="10" cols="60"></textarea>
+        <textarea name="description" rows="10" cols="60" maxlength="1000" required></textarea>
     </p>
     </p>
     <input class="button" type="submit" value="Luo kirja" />

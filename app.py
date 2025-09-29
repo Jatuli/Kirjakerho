@@ -46,8 +46,14 @@ def book():
 def create():
     check_login()
     book_name = request.form["book_name"]
+    if len(book_name) > 40:
+        abort(403)
     author = request.form["author"]
+    if len(author) > 40:
+        abort(403)
     description = request.form["description"]
+    if len(description) > 1000:
+        abort(403)
     user_id = session["user_id"]
 
     books.create_book(book_name, author, description, user_id)
@@ -106,8 +112,14 @@ def register():
 @app.route("/create_user", methods=["POST"])
 def create_user():
     username = request.form["username"]
+    if len(username) > 20:
+        abort(403)
     password1 = request.form["password1"]
+    if len(password1) > 30:
+        abort(403)
     password2 = request.form["password2"]
+    if len(password2) > 40:
+        abort(403)
     if password1 != password2:
         return "VIRHE: salasanat eivät ole samat"
     password_hash = generate_password_hash(password1)
