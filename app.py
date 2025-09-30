@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import db
 import config
 import books
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -19,12 +20,20 @@ def index():
    all_books = books.get_books()
    return render_template("index.html", books=all_books)
 
+@app.route("/show_user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+       abort(404)
+    books = users.get_books(user_id)
+    return render_template("show_user.html", user=user, books=books)
+
 @app.route("/book/<int:book_id>")
 def show_book(book_id):
     book = books.get_book(book_id)
     if book is None:
        abort(404)
-    return render_template("get_book.html", book=book)
+    return render_template("show_book.html", book=book)
 
 @app.route("/search")
 def search_book():

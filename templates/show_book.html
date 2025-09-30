@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ book.book_name }}</title>
+  <style>
+    .button {
+        display: block; 
+        padding: 2px; 
+        margin: 5px 0; 
+        border: 1px solid #000; 
+        text-align: center; 
+        text-decoration: none; 
+        color: #000; 
+        background-color: #f0f0f0; 
+        border-radius: 5px; 
+        width: 100px;
+    }
+
+    .button:hover {
+        background-color: #ddd; 
+    }
+    .red-button {
+            display: block; 
+            padding: 2px; 
+            margin: 5px 0; 
+            border: 1px solid #000; 
+            text-align: center; 
+            text-decoration: none; 
+            color: #fff; 
+            background-color: red; 
+            border-radius: 5px; 
+            width: 100px;
+        }
+
+        .red-button:hover {
+            background-color: darkred; 
+        }
+</style>
+</head>
+
+<body>
+  <h2>{{ book.author }}  -   {{  book.book_name  }}</h2>
+    <p>
+       {{ book.description}}
+    </p>
+    {% if session.user_id == book.user_id %}
+    
+    <p>
+        <a class="button" href="/edit_book/{{ book.id }}">Muokkaa kirjaa</a> 
+        <a class="red-button" href="/remove_book/{{ book.id }}">Poista kirja</a>
+    </p>
+    {% endif %}
+  </p>
+  <p>
+    <a class="button" href="/">Takaisin</a>
+  </p>
+  <p>
+    Lisännyt: <a href="/show_user/{{book.user_id}}">{{ book.username  }}</a>
+  </p>
+  
+    
+   
+</body>
+
+</html>
