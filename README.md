@@ -15,7 +15,7 @@ Tällä hetkellä on lisätty toiminnallisuudet:
 
 
 Jatkossa pyritään lisäämään vielä seuraavat toiminnallisuudet ja muutokset:
-
+* Bugikorjauksia ja yleisen toiminnallisuuden parantamista
 * Käyttäjä voi merkata järjestelmässä olevia kirjoja tilaan "haluan lukea" tai "luettu"
 * Käyttäjä voi kohdistaa kirjoihin arvosteluja.
 * Pyritään tekemään sivusto visuaalisesti miellyttävämmäksi. 
