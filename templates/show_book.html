@@ -44,6 +44,16 @@
     <p>
        {{ book.description}}
     </p>
+    <p>
+      Genre:
+      {% if book_classification %}
+      {% for classification in book_classification %}
+        {{ classification.value }}{% if not loop.last %}, {% endif %}
+      {% endfor %}
+    {% else %}
+      Ei luokitusta
+    {% endif %}
+    </p>
     {% if session.user_id == book.user_id %}
     
     <p>

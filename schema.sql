@@ -11,3 +11,10 @@ CREATE TABLE IF NOT EXISTS books (
     description TEXT,
     user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE IF NOT EXISTS book_classification (
+    id INTEGER PRIMARY KEY,
+    book_id INTEGER REFERENCES books(id),
+    book_name TEXT,
+    value TEXT
+);

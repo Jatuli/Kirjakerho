@@ -6,14 +6,18 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "database.db")
 SCHEMA_PATH = os.path.join(os.path.dirname(__file__), "schema.sql")
 
 def init_db():
-    con = get_connection()
-    with open(SCHEMA_PATH, "r") as f:
-        con.executescript(f.read())  
-    con.commit()
-    con.close()
+    try:
+        con = get_connection()
+        with open(SCHEMA_PATH, "r") as f:
+            con.executescript(f.read())  
+        con.commit()
+        con.close()
+        print("taulut luotu")
+    except Exception as e:
+        print("Virhe tietokannan alustamisessa:", e)
 
 def get_connection():
-    con = sqlite3.connect("DB_PATH")
+    con = sqlite3.connect(DB_PATH)
     con.execute("PRAGMA foreign_keys = ON")
     con.row_factory = sqlite3.Row
     return con

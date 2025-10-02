@@ -37,6 +37,18 @@
         Kuvaus: <br />
         <textarea name="description" rows="10" columns="60" maxlength="1000" required>{{ book.description }}</textarea>
     </p>
+    <p>
+        Genre: <br />
+        <select name="book_classification">
+            <option value="">(valitse)</option>
+            <option value="scifi">scifi</option>
+            <option value="fantasia">fantasia</option>
+            <option value="klassikko">klassikko</option>
+            <option value="lasten">lasten</option>
+            <option value="nykyromaani">nykyromaani</option>
+            <option value="sarjakuva">sarjakuva</option>
+        </select>
+    </p>
     <input type="hidden" name="book_id" value="{{ book.id }}" />
     <input class="button" type="submit" value="Tallenna muutokset"/>
   </form>

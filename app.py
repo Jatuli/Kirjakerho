@@ -10,6 +10,8 @@ import users
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+
+
 def check_login():
     if "user_id" not in session:
         abort(403)
@@ -33,7 +35,9 @@ def show_book(book_id):
     book = books.get_book(book_id)
     if book is None:
        abort(404)
-    return render_template("show_book.html", book=book)
+    classifications = books.get_book_classification(book_id)
+    book_classification = classifications if classifications else [] 
+    return render_template("show_book.html", book=book, book_classification=book_classification)
 
 @app.route("/search")
 def search_book():
@@ -63,9 +67,15 @@ def create():
     description = request.form["description"]
     if len(description) > 1000:
         abort(403)
+    
+    
+    genre = request.form["book_classification"]
+    if not genre:
+        abort(403)
+
     user_id = session["user_id"]
 
-    books.create_book(book_name, author, description, user_id)
+    books.create_book(book_name, author, description, user_id, genre)
 
     return redirect ("/")
 
@@ -93,7 +103,10 @@ def update_book():
     if len(description) > 1000:
         abort(403)
     
-    books.update_book(book_id, book_name, author, description)
+    book_classification = request.form["book_classification"]  
+
+    books.update_book(book_id, book_name, author, description, book_classification)
+
 
     return redirect ("/book/" + str(book_id))
 
@@ -176,6 +189,6 @@ def logout():
 
 if __name__ == "__main__":
     print("Alustetaan tietokanta...")
-    db.init_db()
+    db.init_db()  # Alustetaan tietokanta
     print("Tietokannan alustus valmis.")
     app.run(debug=True)
