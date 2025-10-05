@@ -32,8 +32,9 @@ Ohjeet testaamiseen linux ympäristössä:
 
 - virtuaaliympäristössä asenna riippuvuudet käskyllä pip install -r requirements.txt
 
-HUOM! softassa on bugi mitä en onnistunut ennen deadlinea löytämään. tietokannan luominen ei jostain syystä onnistu automaattisesti, jotta kuitenkin pääsisit testaamaan ohjelmaa muuten alusta tietokanta manuaalisesti käskyillä: sqlite3 database.db    jonka jälkeen   
-.read schema.sql     alustuksen voi testata vielä .tables käskyllä.   Tämän jälkeen .exit ja käynnistä sovellus. 
+HUOM! softassa on bugi mikä ilmenee itselläni mutta ei toisella testialustalla mitä en onnistunut itseltäni vielä poistamaan. tietokannan luominen ei jostain syystä välttämättä onnistu automaattisesti, jos sinulla on ongelmia sen kanssa ja jotta kuitenkin pääsisit testaamaan ohjelmaa ,alusta tietokanta manuaalisesti käskyillä: 
+
+sqlite3 database.db jonka jälkeen .read schema.sql alustuksen voi testata vielä .tables käskyllä.   Tämän jälkeen .exit ja käynnistä sovellus. 
 
 
 - Käynnistä sovellus käskyllä python3 app.py
