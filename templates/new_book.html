@@ -24,29 +24,24 @@
 </head>
 
 <body>
-  <form action="/create_book" method="post">
+  <form action="/new_book" method="post">
+    {{ form.hidden_tag() }}  
+    
     <p>
         Kirjan nimi: <br />
-      <input type="text" name="book_name" maxlength="40" required/>
+        {{ form.book_name(size=40) }}  
     </p>
     <p>
         Kirjailija: <br />
-      <input type="text" name="author" maxlength="40" required/>
+        {{ form.author(size=40) }} 
+    </p>
     <p>
         Kuvaus: <br />
-        <textarea name="description" rows="10" cols="60" maxlength="1000" required></textarea>
+        {{ form.description(rows=10, cols=60) }} 
     </p>
     <p>
         Genre: <br />
-        <select name="book_classification">
-            <option value="">(valitse)</option>
-            <option value="scifi">scifi</option>
-            <option value="fantasia">fantasia</option>
-            <option value="klassikko">klassikko</option>
-            <option value="lasten">lasten</option>
-            <option value="nykyromaani">nykyromaani</option>
-            <option value="sarjakuva">sarjakuva</option>
-        </select>
+        {{ form.book_classification() }} 
     </p>
     <input class="button" type="submit" value="Luo kirja" />
   </form>

@@ -24,12 +24,15 @@ def get_book(book_id):
                     books.book_name,
                     books.author,
                     books.description,
-                    users.id user_id,
-                    users.username
-            FROM books, users
-            WHERE books.user_id = users.id AND 
-                books.id = ?"""
-    result =  db.query(sql, [book_id])
+                    users.id AS user_id,
+                    users.username,
+                    book_classification.value AS genre  -- Hae genre
+            FROM books
+            JOIN users ON books.user_id = users.id
+            LEFT JOIN book_classification ON books.id = book_classification.book_id  -- Liitä book_classification-taulu
+            WHERE books.id = ?"""
+    
+    result = db.query(sql, [book_id])
     return result[0] if result else None
 
 def update_book(book_id, book_name, author, description, book_classification):

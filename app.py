@@ -1,16 +1,17 @@
 import sqlite3
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 from flask import abort, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import db
 import config
 import books
 import users
+from forms import RegistrationForm, LoginForm, NewBookForm, EditBookForm, EmptyForm
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
-
-
+csrf = CSRFProtect(app)
 
 def check_login():
     if "user_id" not in session:
@@ -50,36 +51,31 @@ def search_book():
     return render_template("search.html", query=query, results=results)
     
 
-@app.route("/new_book")
-def book():
+@app.route("/new_book", methods=["GET", "POST"])
+def new_book():
     check_login()
-    return render_template("new_book.html")
-
-@app.route("/create_book", methods=["POST"])
-def create():
-    check_login()
-    book_name = request.form["book_name"]
-    if len(book_name) > 40:
-        abort(403)
-    author = request.form["author"]
-    if len(author) > 40:
-        abort(403)
-    description = request.form["description"]
-    if len(description) > 1000:
-        abort(403)
-    
-    
-    genre = request.form["book_classification"]
-    if not genre:
-        abort(403)
-
     user_id = session["user_id"]
+    form = NewBookForm()  # Luo lomakeinstanssi
+    if form.validate_on_submit():  # Tarkista, onko lomake lähetetty ja kelvollinen
+        book_name = form.book_name.data
+        author = form.author.data
+        description = form.description.data
+        book_classification = form.book_classification.data
 
-    books.create_book(book_name, author, description, user_id, genre)
+        # Tarkista kenttien pituudet
+        if len(book_name) > 40 or len(author) > 40 or len(description) > 1000:
+            abort(403)
 
-    return redirect ("/")
+        # Tallenna kirja tietokantaan
+        books.create_book(book_name, author, description, user_id, book_classification)
 
-@app.route("/edit_book/<int:book_id>")
+        return redirect("/")
+    
+    return render_template("new_book.html", form=form)
+
+
+
+@app.route("/edit_book/<int:book_id>", methods=["GET", "POST"])
 def edit_book(book_id):
     check_login()
     book = books.get_book(book_id)
@@ -87,28 +83,19 @@ def edit_book(book_id):
         abort(404)
     if book["user_id"] != session["user_id"]:
         abort(403)
-    return render_template("edit_book.html", book=book)
 
-@app.route("/update_book", methods=["POST"])
-def update_book():
-    check_login()
-    book_id = request.form["book_id"]
-    book_name = request.form["book_name"]
-    if len(book_name) > 40:
-        abort(403)
-    author = request.form["author"]
-    if len(author) > 40:
-        abort(403)
-    description = request.form["description"]
-    if len(description) > 1000:
-        abort(403)
-    
-    book_classification = request.form["book_classification"]  
+    print("Book data:", dict(book))
 
-    books.update_book(book_id, book_name, author, description, book_classification)
+    form = EditBookForm(obj=book)  
+
+    if form.validate_on_submit(): 
+       
+        books.update_book(book_id, form.book_name.data, form.author.data, form.description.data, form.book_classification.data)
+        return redirect(f"/book/{book_id}")  
+
+    return render_template("edit_book.html", form=form, book=book)  
 
 
-    return redirect ("/book/" + str(book_id))
 
 @app.route("/remove_book/<int:book_id>", methods=["GET", "POST"])
 def remove_book(book_id):
@@ -118,38 +105,59 @@ def remove_book(book_id):
         abort(404)
     if book["user_id"] != session["user_id"]:
         abort(403)
-    if request.method == "GET":
-        book = books.get_book(book_id)
-        return render_template("remove_book.html", book=book)
+
+    form = EmptyForm()
 
     if request.method == "POST":
         if "remove" in request.form:
+            sql = "DELETE FROM book_classification WHERE book_id = ?"
+            db.execute(sql, [book_id])
             books.remove_book(book_id)
             return redirect("/")
         else:
-            return redirect("/book/" +str(book_id))
+            return redirect("/book/" + str(book_id))
+    return render_template("remove_book.html", book=book, form=form)
 
 
-
-    
-
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    form = RegistrationForm()
+    if form.validate_on_submit():  
+        username = form.username.data
+        password1 = form.password1.data
+        password2 = form.password2.data
+
+        if len(username) > 20:
+            abort(403)
+        if len(password1) > 30:
+            abort(403)
+        if len(password2) > 40:
+            abort(403)
+        if password1 != password2:
+            return "VIRHE: salasanat eivät ole samat"
+        
+        password_hash = generate_password_hash(password1)
+
+        try:
+            sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+            db.execute(sql, [username, password_hash])
+        except sqlite3.IntegrityError:
+            return "VIRHE: tunnus on jo varattu"
+
+        return redirect("/")
+    
+    return render_template("register.html", form=form)
 
 @app.route("/create_user", methods=["POST"])
 def create_user():
     username = request.form["username"]
-    if len(username) > 20:
-        abort(403)
     password1 = request.form["password1"]
-    if len(password1) > 30:
-        abort(403)
     password2 = request.form["password2"]
-    if len(password2) > 40:
-        abort(403)
+
+    # Tarkista salasanat ja käyttäjänimi
     if password1 != password2:
         return "VIRHE: salasanat eivät ole samat"
+    
     password_hash = generate_password_hash(password1)
 
     try:
@@ -162,16 +170,19 @@ def create_user():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        
+    form = LoginForm()  
+    if form.validate_on_submit():  
+        username = form.username.data
+        password = form.password.data
+
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
-        result = db.query(sql, [username])[0]
-        user_id = result["id"]
-        password_hash = result["password_hash"]
+        result = db.query(sql, [username])
+
+        if not result: 
+            return "VIRHE: väärä tunnus tai salasana"
+
+        user_id = result[0]["id"]
+        password_hash = result[0]["password_hash"]
 
         if check_password_hash(password_hash, password):
             session["user_id"] = user_id
@@ -179,6 +190,8 @@ def login():
             return redirect("/")
         else:
             return "VIRHE: väärä tunnus tai salasana"
+    
+    return render_template("login.html", form=form)
 
 @app.route("/logout")
 def logout():

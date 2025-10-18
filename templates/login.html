@@ -33,16 +33,14 @@
   </p>
   {% else %}
   <form action="/login" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
+    {{ form.hidden_tag() }}  
+        {{ form.username.label }} {{ form.username() }}  
     </p>
     <p>
-      Salasana: <br />
-      <input type="password" name="password" />
+        {{ form.password.label }} {{ form.password() }}  
     </p>
     <input class="button" type="submit" value="Kirjaudu" />
-  </form>
+</form>
   {% endif %}
 </body>
 

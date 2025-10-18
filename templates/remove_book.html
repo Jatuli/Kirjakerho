@@ -40,13 +40,11 @@
 </head>
 
 <body>
-    <h2>Poista kirja</h2>
-    <p><b>{{ book.book_name }}</b></p>
-    <p>Haluatko varmasti poistaa tämän kirjan </p>
+    <h2>Oletko varma, että haluat poistaa kirjan "{{ book.book_name }}"?</h2>
     <form action="/remove_book/{{ book.id }}" method="POST">
-        
-        <input class="redbutton" type="submit" name="remove" value="Poista kirja"/>
-        <input class="button" type="submit" name="back" value="Takaisin"/>
+        {{ form.hidden_tag() }} 
+        <input type="submit" name="remove" value="Poista kirja" />
+        <a href="/book/{{ book.id }}">Peruuta</a>  
     </form>
 </body>
 
