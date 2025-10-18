@@ -17,19 +17,21 @@ def check_login():
     if "user_id" not in session:
         abort(403)
 
-
 @app.route("/")
 def index():
-   all_books = books.get_books()
-   return render_template("index.html", books=all_books)
+    all_books = books.get_books() 
+    return render_template("index.html", books=all_books) 
 
 @app.route("/show_user/<int:user_id>")
 def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
-       abort(404)
-    books = users.get_books(user_id)
-    return render_template("show_user.html", user=user, books=books)
+        abort(404)
+    
+    user_books = users.get_books(user_id)  
+    total_books = len(user_books) 
+
+    return render_template("show_user.html", user=user, books=user_books, total_books=total_books)
 
 @app.route("/book/<int:book_id>")
 def show_book(book_id):
@@ -55,18 +57,16 @@ def search_book():
 def new_book():
     check_login()
     user_id = session["user_id"]
-    form = NewBookForm()  # Luo lomakeinstanssi
-    if form.validate_on_submit():  # Tarkista, onko lomake lähetetty ja kelvollinen
+    form = NewBookForm()  
+    if form.validate_on_submit():  
         book_name = form.book_name.data
         author = form.author.data
         description = form.description.data
         book_classification = form.book_classification.data
 
-        # Tarkista kenttien pituudet
+       
         if len(book_name) > 40 or len(author) > 40 or len(description) > 1000:
             abort(403)
-
-        # Tallenna kirja tietokantaan
         books.create_book(book_name, author, description, user_id, book_classification)
 
         return redirect("/")
@@ -189,7 +189,7 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            return render_template("login.html", form=form, error="VIRHE: väärä tunnus tai salasana")
     
     return render_template("login.html", form=form)
 

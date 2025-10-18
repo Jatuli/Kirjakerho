@@ -14,9 +14,14 @@ def get_book_classification(book_id):
     sql = "SELECT book_name, value FROM book_classification WHERE book_id = ?"
     return db.query(sql, [book_id])
 
-def get_books():
-    sql = "SELECT id, book_name, author, description, user_id FROM books ORDER by id DESC"
-    results = db.query(sql) 
+def get_books(user_id=None):
+    if user_id is None:
+        sql = "SELECT id, book_name, author, description FROM books ORDER BY id DESC"
+        results = db.query(sql)
+    else:
+        sql = "SELECT id, book_name, author, description FROM books WHERE user_id = ? ORDER BY id DESC"
+        results = db.query(sql, [user_id])
+    
     return results if results else []
 
 def get_book(book_id):

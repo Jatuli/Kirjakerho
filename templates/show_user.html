@@ -42,12 +42,14 @@
 <body>
   <h2>Käyttäjä: {{ user.id }}  -   {{  user.username  }}</h2>
   <p>
-    Käyttäjä on lisännyt yhteensä {{ books| count }} kirjaa.
+    Käyttäjä on lisännyt yhteensä {{ total_books }} kirjaa.
   </p>
   <h3>Kirjat</h3>
   <ul>
     {% for book in books %}
         <li><a href="/book/{{ book.id }}">{{ book.book_name }}</a></li>
+      {% else %}
+          <li>Ei kirjoja saatavilla.</li>
     {% endfor %}
   </ul>
     <p>

@@ -40,8 +40,13 @@
         {{ form.password.label }} {{ form.password() }}  
     </p>
     <input class="button" type="submit" value="Kirjaudu" />
-</form>
+    
+    {% if error %}
+            <p style="color: red;">{{ error }}</p>  
+        {% endif %}
+  </form>
   {% endif %}
+<a class="button" href="/">Takaisin etusivulle</a> 
 </body>
 
 </html>
