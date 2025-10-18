@@ -9,12 +9,13 @@ Tällä hetkellä on lisätty toiminnallisuudet:
 * Käyttäjä näkee sovellukseen lisätyt kirjat.
 * Käyttäjä pystyy etsimään kirjoja hakusanalla. 
 * Käyttäjä pystyy hakemaan sekä itse lisäämiään että muiden käyttäjien lisäämiä kirjoja.
-
-Jatkossa pyritään lisäämään vielä seuraavat toiminnallisuudet ja muutokset:
-
 * Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät kirjat.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja ja käyttäjän lisäämät kirjat.
 * Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun. (klassikko, moderni, uutuus, scifi, fantasia, tieto, taide yms. 
+
+
+Jatkossa pyritään lisäämään vielä seuraavat toiminnallisuudet ja muutokset:
+* Bugikorjauksia ja yleisen toiminnallisuuden parantamista
 * Käyttäjä voi merkata järjestelmässä olevia kirjoja tilaan "haluan lukea" tai "luettu"
 * Käyttäjä voi kohdistaa kirjoihin arvosteluja.
 * Pyritään tekemään sivusto visuaalisesti miellyttävämmäksi. 
@@ -31,8 +32,9 @@ Ohjeet testaamiseen linux ympäristössä:
 
 - virtuaaliympäristössä asenna riippuvuudet käskyllä pip install -r requirements.txt
 
-HUOM! softassa on bugi mitä en onnistunut ennen deadlinea löytämään. tietokannan luominen ei jostain syystä onnistu automaattisesti, jotta kuitenkin pääsisit testaamaan ohjelmaa muuten alusta tietokanta manuaalisesti käskyillä: sqlite3 database.db    jonka jälkeen   
-.read schema.sql     alustuksen voi testata vielä .tables käskyllä.   Tämän jälkeen .exit ja käynnistä sovellus. 
+HUOM! softassa on bugi mikä ilmenee itselläni mutta ei toisella testialustalla mitä en onnistunut itseltäni vielä poistamaan. tietokannan luominen ei jostain syystä välttämättä onnistu automaattisesti, jos sinulla on ongelmia sen kanssa ja jotta kuitenkin pääsisit testaamaan ohjelmaa ,alusta tietokanta manuaalisesti käskyillä: 
+
+sqlite3 database.db jonka jälkeen .read schema.sql alustuksen voi testata vielä .tables käskyllä.   Tämän jälkeen .exit ja käynnistä sovellus. 
 
 
 - Käynnistä sovellus käskyllä python3 app.py
