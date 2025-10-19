@@ -12,13 +12,9 @@ Tällä hetkellä on lisätty toiminnallisuudet:
 * Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät kirjat.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja ja käyttäjän lisäämät kirjat.
 * Käyttäjä pystyy valitsemaan tietokohteelle yhden tai useamman luokittelun. (klassikko, moderni, uutuus, scifi, fantasia, tieto, taide yms. 
-
-
-Jatkossa pyritään lisäämään vielä seuraavat toiminnallisuudet ja muutokset:
-* Bugikorjauksia ja yleisen toiminnallisuuden parantamista
-* Käyttäjä voi merkata järjestelmässä olevia kirjoja tilaan "haluan lukea" tai "luettu"
 * Käyttäjä voi kohdistaa kirjoihin arvosteluja.
-* Pyritään tekemään sivusto visuaalisesti miellyttävämmäksi. 
+
+Ohjelman tila on vielä keskeneräinen mutta mielestäni täyttää perusvaatimukset. Visuaaliseen ulkoasuun en kerennyt panostaa muiden kiireiden vuoksi. 
   
 Ohjeet testaamiseen linux ympäristössä: 
 
