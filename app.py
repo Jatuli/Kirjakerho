@@ -7,7 +7,7 @@ import db
 import config
 import books
 import users
-from forms import RegistrationForm, LoginForm, NewBookForm, EditBookForm, EmptyForm
+from forms import RegistrationForm, LoginForm, NewBookForm, EditBookForm, EmptyForm, ReviewForm
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -40,7 +40,10 @@ def show_book(book_id):
        abort(404)
     classifications = books.get_book_classification(book_id)
     book_classification = classifications if classifications else [] 
-    return render_template("show_book.html", book=book, book_classification=book_classification)
+    
+    reviews = books.get_book_reviews(book_id)  
+
+    return render_template("show_book.html", book=book, book_classification=book_classification, reviews=reviews)
 
 @app.route("/search")
 def search_book():
@@ -84,9 +87,9 @@ def edit_book(book_id):
     if book["user_id"] != session["user_id"]:
         abort(403)
 
-    print("Book data:", dict(book))
+    form = EditBookForm(data=dict(book))  
 
-    form = EditBookForm(obj=book)  
+    print("Form default values:", form.data)
 
     if form.validate_on_submit(): 
        
@@ -94,6 +97,30 @@ def edit_book(book_id):
         return redirect(f"/book/{book_id}")  
 
     return render_template("edit_book.html", form=form, book=book)  
+
+@app.route("/add_review/<int:book_id>", methods=["GET", "POST"])
+def add_review(book_id):
+    check_login()  
+    form = ReviewForm()  
+
+    if form.validate_on_submit():  
+        review_text = form.review.data
+
+        
+        user_id = session["user_id"]  
+
+        existing_review_sql = "SELECT * FROM reviews WHERE book_id = ? AND user_id = ?"
+        existing_review = db.query(existing_review_sql, [book_id, user_id])
+
+        if existing_review:  
+            return "VIRHE: Olet jo arvostellut tämän kirjan."
+
+        sql = "INSERT INTO reviews (book_id, user_id, review_text) VALUES (?, ?, ?)"
+        db.execute(sql, [book_id, user_id, review_text])
+
+        return redirect(f"/book/{book_id}")  
+
+    return render_template("add_review.html", form=form, book_id=book_id)  
 
 
 

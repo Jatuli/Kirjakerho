@@ -54,11 +54,23 @@
       Ei luokitusta
     {% endif %}
     </p>
+
+    <h3>Arvostelut</h3>
+    <ul>
+        {% for review in reviews %}
+            <li><strong>{{ review.username }}</strong>: {{ review.review_text }}</li>
+        {% else %}
+            <li>Ei arvosteluja saatavilla.</li>
+        {% endfor %}
+    </ul>
+    
     {% if session.user_id == book.user_id %}
     
     <p>
-        <a class="button" href="/edit_book/{{ book.id }}">Muokkaa kirjaa</a> 
+        <a class="button" href="/edit_book/{{ book.id }}">Muokkaa kirjaa</a>
+        <a class="button" href="/add_review/{{ book.id }}">Lisää arvio</a> 
         <a class="red-button" href="/remove_book/{{ book.id }}">Poista kirja</a>
+        
     </p>
     {% endif %}
   </p>

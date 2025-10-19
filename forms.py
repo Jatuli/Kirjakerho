@@ -45,5 +45,9 @@ class EditBookForm(FlaskForm):
     ], validators=[DataRequired()])
     submit = SubmitField('Tallenna muutokset')
 
+class ReviewForm(FlaskForm):
+    review = TextAreaField('Arvostelu', validators=[DataRequired()])  # Pakollinen kenttä
+    submit = SubmitField('Lisää arvio')
+
 class EmptyForm(FlaskForm):
     pass

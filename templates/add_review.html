@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lisää arvio</title>
+</head>
+
+<body>
+    <h2>Lisää arvio kirjalle</h2>
+    <form action="/add_review/{{ book_id }}" method="post">
+        {{ form.hidden_tag() }}  
+        <p>
+            {{ form.review.label }} <br />
+            {{ form.review(rows=10, cols=60) }} 
+        </p>
+        <input class="button" type="submit" value="Lisää arvio" />
+    </form>
+    <br>
+    <a class="button" href="/book/{{ book_id }}">Peruuta</a> 
+</body>
+
+</html>

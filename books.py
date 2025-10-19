@@ -31,7 +31,7 @@ def get_book(book_id):
                     books.description,
                     users.id AS user_id,
                     users.username,
-                    book_classification.value AS genre  -- Hae genre
+                    book_classification.value AS book_classification  -- Hae genre
             FROM books
             JOIN users ON books.user_id = users.id
             LEFT JOIN book_classification ON books.id = book_classification.book_id  -- Liitä book_classification-taulu
@@ -39,6 +39,10 @@ def get_book(book_id):
     
     result = db.query(sql, [book_id])
     return result[0] if result else None
+
+def get_book_reviews(book_id):
+    sql = "SELECT reviews.review_text, users.username FROM reviews JOIN users ON reviews.user_id = users.id WHERE reviews.book_id = ?"
+    return db.query(sql, [book_id])
 
 def update_book(book_id, book_name, author, description, book_classification):
     sql ="""UPDATE books SET book_name = ?,
